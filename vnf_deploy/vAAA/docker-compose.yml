@@ -1,0 +1,21 @@
+version: '3'
+services:
+ freeradius:
+  build:
+     context: ./freeradius
+     dockerfile: Dockerfile
+  command: --web --docker --docker.domain=docker.localhost --logLevel=DEBUG
+  ports:
+    - "1812:1812"
+    - "1813:1813"
+  networks:
+    net:
+       ipv4_address: 172.21.0.7
+
+networks:
+   net:
+       driver: bridge
+       ipam:
+           driver: default
+           config:
+             - subnet: 172.21.0.0/16
