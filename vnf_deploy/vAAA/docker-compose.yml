@@ -4,10 +4,10 @@ services:
   build:
      context: ./freeradius
      dockerfile: Dockerfile
-  command: --web --docker --docker.domain=docker.localhost --logLevel=DEBUG
   ports:
     - "1812:1812"
     - "1813:1813"
+  container_name: vaaa_server
   networks:
     net:
        ipv4_address: 172.21.0.7
