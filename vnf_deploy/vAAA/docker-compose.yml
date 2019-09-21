@@ -7,7 +7,7 @@ services:
   ports:
     - "1812:1812"
     - "1813:1813"
-  container_name: vaaa_server
+  container_name: vAAAserver
   networks:
     net:
        ipv4_address: 172.21.0.7
