@@ -23,7 +23,8 @@ RUN	apt-get update && apt-get install -y \
 		siege \
 		httperf \
     		gettext \
-		curl
+		curl \
+		freeradius-utils
 
 
 ADD start.sh start.sh
@@ -31,6 +32,9 @@ RUN chmod +x start.sh
 
 ADD stop.sh stop.sh
 RUN chmod +x stop.sh
+
+ADD vaaa-test.sh vaaa-test.sh
+RUN chmod +x vaaa-test.sh
 
 WORKDIR /
 RUN mkdir /tngbench_share
