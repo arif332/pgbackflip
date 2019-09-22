@@ -43,14 +43,14 @@ service_experiments:
       - function: "de.upb.vAAA.0.1"
         cmd_start: "./start.sh"
         cmd_stop: "./stop.sh"
-        cpu_bw: {"min": 0.1, "max": 1.0, "step": 0.1}  # float: fraction of CPU time in vim-emu
+        cpu_bw: null  # float: fraction of CPU time in vim-emu
         cpu_cores: ["0"]  # string: this is "cpuset_cpu" in vim-emu e.g. ["0, 1"] -> 2 CPUs
         mem_max: [1024]  # int: Memory in MByte
         mem_swap_max: null
         io_bw: null
       - function: "mp.input"
         cmd_start: [
-          "start.sh"
+          "./start.sh"
         ]
         cmd_stop: "./stop.sh"
         cpu_bw: null  # float: fraction of CPU time in vim-emu
