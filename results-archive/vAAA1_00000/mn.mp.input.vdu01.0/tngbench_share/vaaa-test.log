@@ -1,0 +1,24 @@
+Sent Access-Request Id 58 from 0.0.0.0:56911 to 20.0.0.254:1812 length 73
+	User-Name = "bob"
+	User-Password = "test"
+	NAS-IP-Address = 172.17.0.4
+	NAS-Port = 0
+	Message-Authenticator = 0x00
+	Cleartext-Password = "test"
+Received Access-Accept Id 58 from 20.0.0.254:1812 to 0.0.0.0:0 length 20
+Sent Access-Request Id 156 from 0.0.0.0:49722 to 20.0.0.254:1812 length 73
+	User-Name = "bob"
+	User-Password = "test2"
+	NAS-IP-Address = 172.17.0.4
+	NAS-Port = 0
+	Message-Authenticator = 0x00
+	Cleartext-Password = "test2"
+Received Access-Reject Id 156 from 20.0.0.254:1812 to 0.0.0.0:0 length 20
+Sent Access-Request Id 157 from 0.0.0.0:49065 to 20.0.0.254:1812 length 77
+	User-Name = "baduser"
+	User-Password = "test2"
+	NAS-IP-Address = 172.17.0.4
+	NAS-Port = 0
+	Message-Authenticator = 0x00
+	Cleartext-Password = "test2"
+Received Access-Reject Id 157 from 20.0.0.254:1812 to 0.0.0.0:0 length 20

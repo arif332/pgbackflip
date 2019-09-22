@@ -1,0 +1,39 @@
+1: lo: <LOOPBACK,UP,LOWER_UP> mtu 65536 qdisc noqueue state UNKNOWN group default qlen 1000
+    link/loopback 00:00:00:00:00:00 brd 00:00:00:00:00:00
+    inet 127.0.0.1/8 scope host lo
+       valid_lft forever preferred_lft forever
+335: eth0@if336: <BROADCAST,MULTICAST,UP,LOWER_UP> mtu 1500 qdisc noqueue state UP group default 
+    link/ether 02:42:ac:11:00:03 brd ff:ff:ff:ff:ff:ff link-netnsid 0
+    inet 172.17.0.3/16 brd 172.17.255.255 scope global eth0
+       valid_lft forever preferred_lft forever
+338: mgmt@if337: <BROADCAST,MULTICAST,UP,LOWER_UP> mtu 1500 qdisc noqueue state UP group default qlen 1000
+    link/ether 4a:d2:f9:ad:0c:c5 brd ff:ff:ff:ff:ff:ff link-netnsid 0
+    inet 30.0.0.1/24 scope global mgmt
+       valid_lft forever preferred_lft forever
+340: input@if339: <BROADCAST,MULTICAST,UP,LOWER_UP> mtu 1500 qdisc noqueue state UP group default qlen 1000
+    link/ether c6:48:e8:67:a6:a1 brd ff:ff:ff:ff:ff:ff link-netnsid 0
+    inet 20.0.0.254/24 scope global input
+       valid_lft forever preferred_lft forever
+342: output@if341: <BROADCAST,MULTICAST,UP,LOWER_UP> mtu 1500 qdisc noqueue state UP group default qlen 1000
+    link/ether 46:e0:46:f4:30:07 brd ff:ff:ff:ff:ff:ff link-netnsid 0
+    inet 40.0.0.1/24 scope global output
+       valid_lft forever preferred_lft forever
+default via 172.17.0.1 dev eth0 
+20.0.0.0/24 dev input proto kernel scope link src 20.0.0.254 
+30.0.0.0/24 dev mgmt proto kernel scope link src 30.0.0.1 
+40.0.0.0/24 dev output proto kernel scope link src 40.0.0.1 
+172.17.0.0/16 dev eth0 proto kernel scope link src 172.17.0.3 
+UID         PID   PPID  C STIME TTY          TIME CMD
+root          1      0  0 00:43 pts/0    00:00:00 /bin/bash
+root         16      0  0 00:43 pts/1    00:00:00 bash --norc -is mininet:vnf0.vdu01.0
+root         39      1  0 00:43 ?        00:00:00 /bin/bash ./start.sh
+freerad      45      1  2 00:43 ?        00:00:00 /usr/sbin/freeradius
+root         53     39  0 00:43 ?        00:00:00 ps -ef
+Sent Access-Request Id 85 from 0.0.0.0:44620 to 127.0.0.1:1812 length 73
+	User-Name = "bob"
+	User-Password = "test"
+	NAS-IP-Address = 172.17.0.3
+	NAS-Port = 0
+	Message-Authenticator = 0x00
+	Cleartext-Password = "test"
+Received Access-Accept Id 85 from 127.0.0.1:1812 to 127.0.0.1:44620 length 20

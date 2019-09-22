@@ -1,0 +1,63 @@
+Sent Access-Request Id 89 from 0.0.0.0:34476 to 20.0.0.254:1812 length 73
+	User-Name = "bob"
+	User-Password = "test"
+	NAS-IP-Address = 172.17.0.2
+	NAS-Port = 0
+	Message-Authenticator = 0x00
+	Cleartext-Password = "test"
+Sent Access-Request Id 89 from 0.0.0.0:34476 to 20.0.0.254:1812 length 73
+	User-Name = "bob"
+	User-Password = "test"
+	NAS-IP-Address = 172.17.0.2
+	NAS-Port = 0
+	Message-Authenticator = 0x00
+	Cleartext-Password = "test"
+Sent Access-Request Id 89 from 0.0.0.0:34476 to 20.0.0.254:1812 length 73
+	User-Name = "bob"
+	User-Password = "test"
+	NAS-IP-Address = 172.17.0.2
+	NAS-Port = 0
+	Message-Authenticator = 0x00
+	Cleartext-Password = "test"
+Sent Access-Request Id 24 from 0.0.0.0:60175 to 20.0.0.254:1812 length 73
+	User-Name = "bob"
+	User-Password = "test2"
+	NAS-IP-Address = 172.17.0.2
+	NAS-Port = 0
+	Message-Authenticator = 0x00
+	Cleartext-Password = "test2"
+Sent Access-Request Id 24 from 0.0.0.0:60175 to 20.0.0.254:1812 length 73
+	User-Name = "bob"
+	User-Password = "test2"
+	NAS-IP-Address = 172.17.0.2
+	NAS-Port = 0
+	Message-Authenticator = 0x00
+	Cleartext-Password = "test2"
+Sent Access-Request Id 24 from 0.0.0.0:60175 to 20.0.0.254:1812 length 73
+	User-Name = "bob"
+	User-Password = "test2"
+	NAS-IP-Address = 172.17.0.2
+	NAS-Port = 0
+	Message-Authenticator = 0x00
+	Cleartext-Password = "test2"
+Sent Access-Request Id 33 from 0.0.0.0:34876 to 20.0.0.254:1812 length 77
+	User-Name = "baduser"
+	User-Password = "test2"
+	NAS-IP-Address = 172.17.0.2
+	NAS-Port = 0
+	Message-Authenticator = 0x00
+	Cleartext-Password = "test2"
+Sent Access-Request Id 33 from 0.0.0.0:34876 to 20.0.0.254:1812 length 77
+	User-Name = "baduser"
+	User-Password = "test2"
+	NAS-IP-Address = 172.17.0.2
+	NAS-Port = 0
+	Message-Authenticator = 0x00
+	Cleartext-Password = "test2"
+Sent Access-Request Id 33 from 0.0.0.0:34876 to 20.0.0.254:1812 length 77
+	User-Name = "baduser"
+	User-Password = "test2"
+	NAS-IP-Address = 172.17.0.2
+	NAS-Port = 0
+	Message-Authenticator = 0x00
+	Cleartext-Password = "test2"
