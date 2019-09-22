@@ -6,16 +6,14 @@
 ```
 Author: Arif
 Document History:
-2019-09-21	V2	Build all vnfs using script
+2019-09-21	V1	run vAAA in vim-emu environment
 ```
 
 
 
 ## Introduction
 
- This Method of Procedure (MoP) will do vAAA experiments in vim-emu environments. 
-
-
+Method of Procedure for vAAA  in vim-emu environment -
 
 ## Experiments in tng-bench
 
