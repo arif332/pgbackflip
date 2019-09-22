@@ -35,13 +35,16 @@ Method of Procedure for vAAA  in vim-emu environment -
 2. #### Clone repository 
 
    ```bash
+   #login to tng-bench server and clone git repository 
    git clone https://github.com/arif332/tng-bench-experiments.git
    ```
 
-3. #### Navigate to folder for PED and other configuration file
+3. #### Navigate for PED and other configuration file
 
    ```bash
    cd tng-bench-experiments
+   ls experiments/peds
+   ls experiments/services
    ```
 
 4. #### Run the experiments
@@ -56,7 +59,7 @@ Method of Procedure for vAAA  in vim-emu environment -
 
    
 
-5. #### Execution logs
+5. #### Execution logs for vAAA
 
    ```bash
    (venv) root@tng-bench-vm:/usr/local/src/tng-bench-experiments/experiments/peds# tng-bench -p vaaa.yml --no-prometheus

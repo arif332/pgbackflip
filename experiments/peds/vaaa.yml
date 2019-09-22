@@ -11,7 +11,7 @@ descriptor_version: 0.2  # 5GTANGO: 0.2, SONATA 0.1
 vendor: "de.upb"
 name: "vAAA"
 version: "1.0"
-author: "Arif Hossen, Paderborn University, earihos@mail.uni-paderborn.de"
+author: "Arif Hossen, Paderborn University, earihos@mail.uni-paderborn.de (arif332@gmail.com)"
 description: "vAAA Benchmark Experiment in vim-emu"
 
 # Path to the network service we want to profile (relative from PED location)

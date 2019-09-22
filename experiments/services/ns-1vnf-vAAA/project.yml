@@ -14,4 +14,4 @@ package:
   version: '0.1'
   maintainer: Arif Hossen
   vendor: de.upb
-  description: Test service for benchmarking experiments.
+  description: Test service for vAAA benchmarking experiments.
