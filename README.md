@@ -40,7 +40,7 @@ Document History:
    git clone https://github.com/arif332/tng-bench-experiments.git
    ```
 
-3. #### Navigate to folder PED and other configuration file
+3. #### Navigate to folder for PED and other configuration file
 
    ```bash
    cd tng-bench-experiments
