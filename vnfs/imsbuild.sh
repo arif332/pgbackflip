@@ -1,4 +1,4 @@
 #!/bin/bash
 set -e
 
-docker build -t arif332/openimscore -f openIMScore/Dockerfile openIMScore
+docker build -t arif332/openimscorefull -f openIMScore/Dockerfile openIMScore
