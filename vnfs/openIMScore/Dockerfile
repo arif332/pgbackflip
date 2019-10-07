@@ -8,6 +8,7 @@ ENV IFOUT output
 #Install necessary software
 RUN apt-get update && \
 	apt-get install -y \
+		bind9 \
 		bison \
 		build-essential \ 
 		curl \
@@ -15,6 +16,7 @@ RUN apt-get update && \
 		gcc-4.8 g++-4.8 \ 
 		iproute2 \
 		ipsec-tools \
+		iputils-ping \
 		libcurl4-openssl-dev \
 		libmysqld-dev \
 		libxml2-dev \
@@ -22,6 +24,8 @@ RUN apt-get update && \
 		net-tools \
 		software-properties-common \
 		subversion \
+		tcpdump \
+		tree \
 		vim \
 		wget \
 		&& rm -rf /var/lib/apt/lists/*
@@ -37,7 +41,7 @@ ENV ANT_HOME="/opt/apache-ant-1.9.14"
 ENV PATH=$PATH:$ANT_HOME/bin
 ENV ANT_OPTS="-Dfile.encoding=utf-8"
 
-
+#Install JDK 1.7
 WORKDIR /opt
 COPY jdk-7u80-linux-x64.tar.gz /opt
 COPY bash_export.sh /opt
@@ -52,11 +56,9 @@ RUN update-alternatives --install /usr/bin/javac javac /opt/jdk1.7.0_80/bin/java
 #Copy ims source code and build
 RUN mkdir -p /opt/OpenIMSCore/FHoSS
 RUN mkdir -p /opt/OpenIMSCore/ser_ims
-#RUN cd /opt/OpenIMSCore
 WORKDIR /opt/OpenIMSCore
 RUN svn checkout https://svn.code.sf.net/p/openimscore/code/FHoSS/trunk FHoSS
 RUN svn checkout https://svn.code.sf.net/p/openimscore/code/ser_ims/trunk ser_ims
-#RUN cd /opt/OpenIMSCore/FHoSS
 WORKDIR /opt/OpenIMSCore/FHoSS
 RUN mv build.xml build.xml.orig
 COPY build.xml build.xml
@@ -69,7 +71,7 @@ RUN make install-libs all
 #import db configuration
 WORKDIR /opt/OpenIMSCore
 RUN service mysql start && mysql -u root < FHoSS/scripts/hss_db.sql && mysql -u root < FHoSS/scripts/userdata.sql && mysql -u root < ser_ims/cfg/icscf.sql
-#RUN mysql -u root < FHoSS/scripts/hss_db.sql
+#RUN mysql -u root -p < FHoSS/scripts/hss_db.sql
 #RUN mysql -u root -p < FHoSS/scripts/userdata.sql
 #RUN mysql -u root -p < ser_ims/cfg/icscf.sql
 
@@ -79,7 +81,7 @@ RUN cp ser_ims/cfg/*.xml .
 RUN cp ser_ims/cfg/*.sh .
 RUN cp /opt/OpenIMSCore/ser_ims/lib/*/*.so  /usr/local/lib/ser/
 
-EXPOSE 53 3306 3868 3869 3870 4060 5060 6060
+EXPOSE 53 80 3306 3868 3869 3870 4060 5060 6060 8080
 
 #ADD start.sh start.sh
 #RUN chmod +x start.sh
