@@ -98,7 +98,20 @@ https://github.com/openbaton/openimscore-packages
 
       
 
-3. #### Start Application  
+3. #### Run Docker Image
+
+   Run docker image as like below command -
+
+   ```bash
+   docker run -h openimscore --name openimscore -itd arif332/openimscore-allinone
+   
+   docker exec -it openimscore bash
+   
+   ```
+
+   
+
+4. #### Start Application  
 
    Application will start automatically. If it's not started automatically then following script can be launch to start application -
 
@@ -110,7 +123,7 @@ https://github.com/openbaton/openimscore-packages
    /opt/OpenIMSCore/icscf.sh &
    ```
 
-4. ####  Access Application
+5. ####  Access Application
 
    ```bash
    http://hssAdmin:hss@localhost:8080/hss.web.console/
@@ -129,5 +142,5 @@ https://github.com/openbaton/openimscore-packages
 
 
 
-## SIP Clinet Integration
+## SIP Client Integration
 
