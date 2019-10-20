@@ -22,6 +22,7 @@ RUN apt-get update && \
 		libxml2-dev \
 		mysql-server \
 		net-tools \
+		nginx \
 		software-properties-common \
 		subversion \
 		tcpdump \
@@ -80,8 +81,30 @@ RUN cp ser_ims/cfg/*.cfg .
 RUN cp ser_ims/cfg/*.xml .
 RUN cp ser_ims/cfg/*.sh .
 RUN cp /opt/OpenIMSCore/ser_ims/lib/*/*.so  /usr/local/lib/ser/
+COPY ser_ims_cfg/scscf.cfg scscf.cfg
+COPY ser_ims_cfg/icscf.cfg icscf.cfg
+COPY ser_ims_cfg/pcscf.cfg pcscf.cfg
 
-EXPOSE 53 80 3306 3868 3869 3870 4060 5060 6060 8080
+
+#configure nginx to access tomcat webserver for hoss 
+COPY hss-reverseproxy.conf /etc/nginx/sites-available
+RUN rm -f /etc/nginx/sites-enabled/default
+RUN ln -s /etc/nginx/sites-available/hss-reverseproxy.conf /etc/nginx/sites-enabled/hss-reverseproxy.conf
+
+#install sip client
+#RUN apt-get update && apt-get install -y git pkg-config dh-autoreconf ncurses-dev build-essential libssl-dev libpcap-dev libncurses5-dev libsctp-dev lksctp-tools
+#WORKDIR /usr/local/src
+#RUN git clone https://github.com/SIPp/sipp.git
+#WORKDIR /usr/local/src/sipp
+#RUN ./build.sh --with-pcap --with-sctp --with-openssl
+#RUN cp sipp /usr/local/bin/
+#RUN mkdir /ims-test-conf
+#WORKDIR /ims-test-conf
+#COPY ims-test-conf /ims-test-conf
+
+
+EXPOSE 53 80 3306 3868 3869 3870 4060/tcp 5060 6060 8080 4060/udp
+#EXPOSE 53 80 3306 3868 3869 3870 4060 5060 6060 8080
 
 #ADD start.sh start.sh
 #RUN chmod +x start.sh
