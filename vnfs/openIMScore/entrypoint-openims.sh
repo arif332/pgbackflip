@@ -6,6 +6,9 @@ echo "127.0.0.1 open-ims.test mobicents.open-ims.test ue.open-ims.test presence.
 #fhoss service
 service mysql start
 service nginx start
+service bind9 start
+
+cp -f /etc/resolv.conf.manual /etc/resolv.conf
 
 /opt/OpenIMSCore/fhoss.sh &
 

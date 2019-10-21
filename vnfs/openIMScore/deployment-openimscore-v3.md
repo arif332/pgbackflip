@@ -9,6 +9,7 @@ Document History:
 2019-09-22	V1	collecting information
 2019-09-27	V2	resolve ser application start issue
 2019-09-29	V3	finalize automatic docker build config file and procedure
+2019-10-21	V4	SIPP integration and call testing
 ```
 
 
@@ -194,7 +195,7 @@ modparam("scscf","registration_qop","")
 
 
 
-Modify listen address in pcscf.cfg otherwise sipp client will not able to communicate with OpenIMSCore Server
+Modify listen address in pcscf.cfg, otherwise sipp client will not able to communicate with OpenIMSCore Server.
 
 ```bash
 #modify listen address as like below for file scscf.cfg, icscf.cfg and pcscf.cfg so that sipp client can talk with OpenIMSCore Server, otherwise Destination unreachable(Port unreachable) msg will be seen in tcmpdump trace 
@@ -207,9 +208,22 @@ port=4060
 
 
 
+Start OpenIMSCore server -
+
+```bash
+docker run -h ims --name ims -itd -p 8080:8080 -p 80:80 -p 4060:4060/udp arif332/openimscore-allinone
+
+```
 
 
-## SIP Client Docker Image
+
+
+
+
+
+
+
+## SIP Client : Docker Image Build
 
 
 
@@ -244,6 +258,24 @@ docker push arif332/ims-client-mp
 
 
 
+Run 1st Instance of docker image ims-client-mp -
+
+```bash
+docker run -h ims-client-mp --name ims-client-mp -itd -p 3061:3061 -p 3061:3061/udp arif332/ims-client-mp
+docker exec -it ims-client-mp bash
+```
+
+
+
+Run 2nd Instance of docker image ims-client-mp -
+
+```bash
+docker run -h ims-client-mp2 --name ims-client-mp2 -itd -p 3062:3062 -p 3062:3062/udp arif332/ims-client-mp
+docker exec -it ims-client-mp2 bash
+```
+
+
+
 Cheat sheet for SIPP -
 
 ```bash
@@ -255,14 +287,14 @@ http://tomeko.net/other/sipp/sipp_cheatsheet.php?lang=en
 
 
 
-## Testing with SIP Client (IMS Client)
+## Integration SIP Client (IMS Client) with OpenIMSCore
 
-
+Sample SIP testing configuration script for SIPP -
 
 ```bash
-#testing configuration script from openimscore 
+#testing configuration script with openimscore 
 http://openimscore.sourceforge.net/?q=emergency_testing_guide
-#sip cheatsheet
+#sipp cheatsheet
 http://tomeko.net/other/sipp/sipp_cheatsheet.php?lang=en
 ```
 
@@ -277,37 +309,75 @@ https://www.youtube.com/watch?v=TZMrPJM4HMc
 
 
 
-Similar ip and port communication issue -
-
-```bash
-https://github.com/moby/moby/issues/32168
-
-solution for this issue is to listen pcscf on address 0.0.0.0:4060
-
-modify listen address as like below for file scscf.cfg, icscf.cfg and pcscf.cfg
-
-#listen=127.0.0.1
-listen=0.0.0.0
-port=4060
-
-```
-
-
-
 Subscriber registration from SIPP Client using below command - 
 
 
 ```bash
-#sip test command from client
+#sip registration command for alice from client1
 sipp -sf non_em_reg_alice.xml 172.17.0.2:4060  -p 3061 -m 1
 ```
 
 
 
-sipp test message -
+```bash
+#sip registration command for bob from client2
+sipp -sf non_em_reg_bob.xml 172.17.0.2:4060  -p 3062 -m 1
+```
+
+
+
+Alice waits for the call (UAS)
 
 ```bash
-                                           ------------------------------ Scenario Screen -------- [1-9]: Change Screen --
+#at client1
+sipp -sf uas_b2a.xml 172.17.0.2:4060 -p 3061 -m 1
+```
+
+
+
+Bob generates and ends a non-emergency call (UAC)
+
+```bash
+#at client2
+sipp -sf non_em_uac_b2a.xml 172.17.0.2:4060 -p 3062 -m 1
+```
+
+
+
+
+
+## Lesson Learned: Deployment and Integration 
+
+
+
+Sipp test message response-1 : SIP/2.0 403 Forbidden - Originating subsequent requests outside dialog not allowed
+
+```bash
+Solution to install dns server in openIMSCore
+```
+
+
+
+```bash
+  
+
+```
+
+
+
+
+
+
+
+## Successful Logs:
+
+
+
+SIPP Client Registration Logs -
+
+```bash
+ Client1: sipp -sf non_em_reg_bob.xml 172.17.0.2:4060  -p 3061 -m 1
+ ------------------------------ Scenario Screen -------- [1-9]: Change Screen --
   Call-rate(length)   Port   Total-time  Total-calls  Remote-host
   10.0(0 ms)/1.000s   3061       0.00 s            0  172.17.0.2:4060(UDP)
 
@@ -326,76 +396,227 @@ sipp test message -
 
 ------------------------------ Scenario Screen -------- [1-9]: Change Screen --
   Call-rate(length)   Port   Total-time  Total-calls  Remote-host
-  10.0(0 ms)/1.000s   3061       0.14 s            1  172.17.0.2:4060(UDP)
+  10.0(0 ms)/1.000s   3061       0.38 s            1  172.17.0.2:4060(UDP)
 
-  Call limit reached (-m 1), 0.140 s period  1 ms scheduler resolution
+  Call limit reached (-m 1), 0.388 s period  1 ms scheduler resolution
   0 calls (limit 30)                     Peak was 1 calls, after 0 s
-  0 Running, 4 Paused, 1 Woken up
+  0 Running, 3 Paused, 2 Woken up
   0 dead call msg (discarded)            0 out-of-call msg (discarded)        
   0 open sockets                        
 
                                  Messages  Retrans   Timeout   Unexpected-Msg
     REGISTER ---------->         1         0         0                  
-         401 <----------  E-RTD1 0         0         0         1        
-    REGISTER ---------->         0         0         0                  
-         200 <----------         0         0         0         0        
+         401 <----------  E-RTD1 1         0         0         0        
+    REGISTER ---------->         1         0         0                  
+         200 <----------         1         0         0         0        
 ------------------------------ Test Terminated --------------------------------
 
 
 ------------------------------ Scenario Screen -------- [1-9]: Change Screen --
   Call-rate(length)   Port   Total-time  Total-calls  Remote-host
-  10.0(0 ms)/1.000s   3061       0.14 s            1  172.17.0.2:4060(UDP)
+  10.0(0 ms)/1.000s   3061       0.38 s            1  172.17.0.2:4060(UDP)
 
   Call limit reached (-m 1), 0.000 s period  0 ms scheduler resolution
   0 calls (limit 30)                     Peak was 1 calls, after 0 s
-  0 Running, 4 Paused, 0 Woken up
+  0 Running, 3 Paused, 0 Woken up
   0 dead call msg (discarded)            0 out-of-call msg (discarded)        
   0 open sockets                        
 
                                  Messages  Retrans   Timeout   Unexpected-Msg
     REGISTER ---------->         1         0         0                  
-         401 <----------  E-RTD1 0         0         0         1        
-    REGISTER ---------->         0         0         0                  
-         200 <----------         0         0         0         0        
+         401 <----------  E-RTD1 1         0         0         0        
+    REGISTER ---------->         1         0         0                  
+         200 <----------         1         0         0         0        
 ------------------------------ Test Terminated --------------------------------
 
 
 ----------------------------- Statistics Screen ------- [1-9]: Change Screen --
-  Start Time             | 2019-10-20	19:53:29.934816	1571601209.934816         
-  Last Reset Time        | 2019-10-20	19:53:30.076468	1571601210.076468         
-  Current Time           | 2019-10-20	19:53:30.076676	1571601210.076676         
+  Start Time             | 2019-10-20	23:18:51.525614	1571613531.525614         
+  Last Reset Time        | 2019-10-20	23:18:51.916533	1571613531.916533         
+  Current Time           | 2019-10-20	23:18:51.916625	1571613531.916625         
 -------------------------+---------------------------+--------------------------
   Counter Name           | Periodic value            | Cumulative value
 -------------------------+---------------------------+--------------------------
-  Elapsed Time           | 00:00:00:000000           | 00:00:00:141000          
-  Call Rate              |    0.000 cps              |    7.092 cps             
+  Elapsed Time           | 00:00:00:000000           | 00:00:00:391000          
+  Call Rate              |    0.000 cps              |    2.558 cps             
 -------------------------+---------------------------+--------------------------
   Incoming call created  |        0                  |        0                 
   OutGoing call created  |        0                  |        1                 
   Total Call created     |                          |        1                 
   Current Call           |        0                  |                          
 -------------------------+---------------------------+--------------------------
-  Successful call        |        0                  |        0                 
-  Failed call            |        0                  |        1                 
+  Successful call        |        0                  |        1                 
+  Failed call            |        0                  |        0                 
 -------------------------+---------------------------+--------------------------
-  Response Time 1        | 00:00:00:000000           | 00:00:00:000000          
-  Call Length            | 00:00:00:000000           | 00:00:00:036000          
+  Response Time 1        | 00:00:00:000000           | 00:00:00:188000          
+  Call Length            | 00:00:00:000000           | 00:00:00:284000          
+------------------------------ Test Terminated --------------------------------
+
+```
+
+
+
+Alice Call logs -
+
+```bash
+------------------------------ Scenario Screen -------- [1-9]: Change Screen --
+  Port   Total-time  Total-calls  Transport
+  3061      31.12 s            1  UDP
+
+  Call limit reached (-m 1), 1.004 s period  1 ms scheduler resolution
+  1 calls                                Peak was 1 calls, after 24 s
+  0 Running, 2 Paused, 4 Woken up
+  0 dead call msg (discarded)          
+  3 open sockets                        
+
+                                 Messages  Retrans   Timeout   Unexpected-Msg
+  ----------> INVITE             1         0         0         0        
+  <---------- 180                1         0                            
+  [   2000ms] Pause              1                             0        
+  <---------- 200                1         0         0                  
+  ----------> ACK                1         0         0         0        
+
+  ----------> BYE                0         0         0         0        
+  <---------- 200                0         0                            
+------- Waiting for active calls to end. Press [q] again to force exit. -------
+
+Last Error: non SIP message discarded: "
+" (2)
+------------------------------ Scenario Screen -------- [1-9]: Change Screen --
+  Port   Total-time  Total-calls  Transport
+  3061      31.85 s            1  UDP
+
+  Call limit reached (-m 1), 0.732 s period  1 ms scheduler resolution
+  0 calls                                Peak was 1 calls, after 24 s
+  0 Running, 3 Paused, 1 Woken up
+  0 dead call msg (discarded)          
+  0 open sockets                        
+
+                                 Messages  Retrans   Timeout   Unexpected-Msg
+  ----------> INVITE             1         0         0         0        
+  <---------- 180                1         0                            
+  [   2000ms] Pause              1                             0        
+  <---------- 200                1         0         0                  
+  ----------> ACK                1         0         0         0        
+
+  ----------> BYE                1         0         0         0        
+  <---------- 200                1         0                            
 ------------------------------ Test Terminated --------------------------------
 
 
-2019-10-20	19:53:30.076000	1571601210.076000: Aborting call on unexpected message for Call-Id '1-31@172.17.0.3': while expecting '401' (index 1), received 'SIP/2.0 478 Unresolvable destination (478/TM)
-Via: SIP/2.0/UDP 172.17.0.3:3061;branch=z9hG4bK-31-1-0;rport=3061
-From: "alice" <sip:alice@open-ims.test>;tag=1
-To: "alice" <sip:alice@open-ims.test>;tag=5d140a338aa6e1dd545b3496380067c9-c30a
-Call-ID: reg///1-31@172.17.0.3
-CSeq: 1 REGISTER
-Server: Sip EXpress router (2.1.0-dev1 OpenIMSCore (x86_64/linux))
-Content-Length: 0
-Warning: 392 0.0.0.0:4060 "Noisy feedback tells:  pid=562 req_src_ip=172.17.0.3 req_src_port=3061 in_uri=sip:open-ims.test out_uri=sip:open-ims.test via_cnt==1"
+------------------------------ Scenario Screen -------- [1-9]: Change Screen --
+  Port   Total-time  Total-calls  Transport
+  3061      31.85 s            1  UDP
 
-'
+  Call limit reached (-m 1), 0.000 s period  0 ms scheduler resolution
+  0 calls                                Peak was 1 calls, after 24 s
+  0 Running, 3 Paused, 0 Woken up
+  0 dead call msg (discarded)          
+  0 open sockets                        
+
+                                 Messages  Retrans   Timeout   Unexpected-Msg
+  ----------> INVITE             1         0         0         0        
+  <---------- 180                1         0                            
+  [   2000ms] Pause              1                             0        
+  <---------- 200                1         0         0                  
+  ----------> ACK                1         0         0         0        
+
+  ----------> BYE                1         0         0         0        
+  <---------- 200                1         0                            
+------------------------------ Test Terminated --------------------------------
+
+
+----------------------------- Statistics Screen ------- [1-9]: Change Screen --
+  Start Time             | 2019-10-21	00:03:42.558343	1571616222.558343         
+  Last Reset Time        | 2019-10-21	00:04:14.417626	1571616254.417626         
+  Current Time           | 2019-10-21	00:04:14.417949	1571616254.417949         
+-------------------------+---------------------------+--------------------------
+  Counter Name           | Periodic value            | Cumulative value
+-------------------------+---------------------------+--------------------------
+  Elapsed Time           | 00:00:00:000000           | 00:00:31:859000          
+  Call Rate              |    0.000 cps              |    0.031 cps             
+-------------------------+---------------------------+--------------------------
+  Incoming call created  |        0                  |        1                 
+  OutGoing call created  |        0                  |        0                 
+  Total Call created     |                          |        1                 
+  Current Call           |        0                  |                          
+-------------------------+---------------------------+--------------------------
+  Successful call        |        0                  |        1                 
+  Failed call            |        0                  |        0                 
+-------------------------+---------------------------+--------------------------
+  Call Length            | 00:00:00:000000           | 00:00:07:024000          
+------------------------------ Test Terminated --------------------------------
+
+
+2019-10-21	00:04:04.486683	1571616244.486683: non SIP message discarded: "
+" (2)
+sipp: There were more errors, enable -trace_err to log them.
 root@ims-client-mp:/ims-test-conf# 
-root@ims-client-mp:/ims-test-conf# 
+
+```
+
+
+
+
+
+Bob call logs -
+
+```bash
+------------------------------ Test Terminated --------------------------------
+
+
+------------------------------ Scenario Screen -------- [1-9]: Change Screen --
+  Call-rate(length)   Port   Total-time  Total-calls  Remote-host
+  10.0(0 ms)/1.000s   3062       7.14 s            1  172.17.0.2:4060(UDP)
+
+  Call limit reached (-m 1), 0.000 s period  0 ms scheduler resolution
+  0 calls (limit 150)                    Peak was 1 calls, after 0 s
+  0 Running, 3 Paused, 0 Woken up
+  0 dead call msg (discarded)            0 out-of-call msg (discarded)        
+  0 open sockets                        
+
+                                 Messages  Retrans   Timeout   Unexpected-Msg
+      INVITE ---------->         1         0         0                  
+         100 <----------         1         0         0         0        
+         180 <----------         1         0         0         0        
+         403 <----------         0         0         0         0        
+         404 <----------         0         0         0         0        
+         408 <----------         0         0         0         0        
+         200 <----------         1         0         0         0        
+         ACK ---------->         1         0                            
+
+       Pause [   5000ms]         1                             0        
+
+         BYE ---------->         1         0         0                  
+         200 <----------         1         0         0         0        
+
+         ACK ---------->         0         0                            
+
+------------------------------ Test Terminated --------------------------------
+
+
+----------------------------- Statistics Screen ------- [1-9]: Change Screen --
+  Start Time             | 2019-10-21	00:04:07.272294	1571616247.272294         
+  Last Reset Time        | 2019-10-21	00:04:14.421697	1571616254.421697         
+  Current Time           | 2019-10-21	00:04:14.422172	1571616254.422172         
+-------------------------+---------------------------+--------------------------
+  Counter Name           | Periodic value            | Cumulative value
+-------------------------+---------------------------+--------------------------
+  Elapsed Time           | 00:00:00:000000           | 00:00:07:149000          
+  Call Rate              |    0.000 cps              |    0.140 cps             
+-------------------------+---------------------------+--------------------------
+  Incoming call created  |        0                  |        0                 
+  OutGoing call created  |        0                  |        1                 
+  Total Call created     |                          |        1                 
+  Current Call           |        0                  |                          
+-------------------------+---------------------------+--------------------------
+  Successful call        |        0                  |        1                 
+  Failed call            |        0                  |        0                 
+-------------------------+---------------------------+--------------------------
+  Call Length            | 00:00:00:000000           | 00:00:07:040000          
+------------------------------ Test Terminated --------------------------------
+
+
 
 ```
 

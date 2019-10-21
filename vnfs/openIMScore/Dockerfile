@@ -86,6 +86,20 @@ COPY ser_ims_cfg/icscf.cfg icscf.cfg
 COPY ser_ims_cfg/pcscf.cfg pcscf.cfg
 
 
+#DNS server Setup
+WORKDIR /etc/bind
+COPY conf/open-ims.dnszone open-ims.dnszone
+RUN chown root:bind open-ims.dnszone
+
+COPY conf/named.conf.default-zones named.conf.default-zones
+RUN chown root:bind named.conf.default-zones
+
+COPY conf/named.conf.options named.conf.options
+RUN chown root:bind named.conf.options
+
+COPY conf/resolv.conf /etc/resolv.conf.manual
+
+
 #configure nginx to access tomcat webserver for hoss 
 COPY hss-reverseproxy.conf /etc/nginx/sites-available
 RUN rm -f /etc/nginx/sites-enabled/default
@@ -114,6 +128,7 @@ EXPOSE 53 80 3306 3868 3869 3870 4060/tcp 5060 6060 8080 4060/udp
 RUN mkdir /tngbench_share
 
 #ENTRYPOINT
+WORKDIR /opt/OpenIMSCore
 COPY entrypoint-openims.sh entrypoint-openims.sh
 RUN chmod +x entrypoint-openims.sh
 
