@@ -48,7 +48,7 @@ WORKDIR /ims-test-conf
 COPY ims-test-conf /ims-test-conf
 
 #EXPOSE 3050-3070
-EXPOSE 3061/tcp 3061/udp
+EXPOSE 3060-3065/tcp 3060-3065/udp
 
 
 WORKDIR /
