@@ -1,5 +1,5 @@
 FROM ubuntu:18.04
-LABEL maintainer="Arif Hossen <arif332@gmail.com>"
+LABEL maintainer="Arif Hossen <earihos@mail.uni-paderborn.de> <arif332@gmail.com>"
 
 # define interface names (should be the same as in VNFD)
 ENV IFIN input
@@ -23,6 +23,8 @@ RUN apt-get update && \
 		mysql-server \
 		net-tools \
 		nginx \
+		python \
+		python-yaml \
 		software-properties-common \
 		subversion \
 		tcpdump \
@@ -120,10 +122,7 @@ RUN ln -s /etc/nginx/sites-available/hss-reverseproxy.conf /etc/nginx/sites-enab
 EXPOSE 53 80 3306 3868 3869 3870 4060/tcp 5060 6060 8080 4060/udp
 #EXPOSE 53 80 3306 3868 3869 3870 4060 5060 6060 8080
 
-#ADD start.sh start.sh
-#RUN chmod +x start.sh
-#ADD stop.sh stop.sh
-#RUN chmod +x stop.sh
+
 
 RUN mkdir /tngbench_share
 
@@ -131,6 +130,15 @@ RUN mkdir /tngbench_share
 WORKDIR /opt/OpenIMSCore
 COPY entrypoint-openims.sh entrypoint-openims.sh
 RUN chmod +x entrypoint-openims.sh
+
+#startup script for the 
+WORKDIR /
+ADD start.sh start.sh
+RUN chmod +x start.sh
+ADD stop.sh stop.sh
+RUN chmod +x stop.sh
+ADD log_intf_statistics.py log_intf_statistics.py
+
 
 ENTRYPOINT ["/opt/OpenIMSCore/entrypoint-openims.sh"]
 CMD [""]
