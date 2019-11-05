@@ -52,9 +52,15 @@ EXPOSE 3060-3065/tcp 3060-3065/udp
 
 
 WORKDIR /
-ADD start.sh start.sh
-RUN chmod +x start.sh
+#ADD start.sh start.sh
+#RUN chmod +x start.sh
+#ADD stop.sh stop.sh
+#RUN chmod +x stop.sh
 
+ADD mp_input_start.sh mp_input_start.sh
+RUN chmod +x mp_input_start.sh
+ADD mp_output_start.sh mp_output_start.sh
+RUN chmod +x mp_output_start.sh
 ADD stop.sh stop.sh
 RUN chmod +x stop.sh
 
