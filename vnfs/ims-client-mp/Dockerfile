@@ -63,11 +63,13 @@ ADD mp_output_start.sh mp_output_start.sh
 RUN chmod +x mp_output_start.sh
 ADD stop.sh stop.sh
 RUN chmod +x stop.sh
+ADD log_intf_statistics.py log_intf_statistics.py
 
 ADD ims-client-reg.sh ims-client-reg.sh
 RUN chmod +x ims-client-reg.sh
 
-WORKDIR /ims-test-conf
+#WORKDIR /ims-test-conf
 RUN mkdir /tngbench_share
+WORKDIR /
 CMD /bin/bash
 
