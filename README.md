@@ -22,8 +22,8 @@ Method of Procedure for vnf experiment  in between tng-bench & vim-emu environme
 
 ```bash
 
-tng-bench			<----------------------->			vim-emu server
-192.168.151.60											192.168.151.61
+tng-bench			<----------------------->		vim-emu server
+192.168.151.60								192.168.151.61
 ```
 
 
