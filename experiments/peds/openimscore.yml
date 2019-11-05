@@ -22,7 +22,7 @@ service_experiments:
   - name: "openimscore"
     description: "openimscore Benchmark Experiment"
     repetitions: 1
-    time_limit: 600 # seconds per experiment
+    time_limit: 180 # seconds per experiment
     # NSD to be used (vendor.name.version reference)
     target:
       vendor: "de.upb"
@@ -50,7 +50,7 @@ service_experiments:
         io_bw: null
       - function: "mp.input"
         cmd_start: [
-          "./start.sh"
+          "./mp_input_start.sh"
         ]
         cmd_stop: "./stop.sh"
         cpu_bw: null  # float: fraction of CPU time in vim-emu
@@ -59,7 +59,7 @@ service_experiments:
         mem_swap_max: null
         io_bw: null
       - function: "mp.output"
-        cmd_start: "./start.sh"
+        cmd_start: "./mp_output_start.sh"
         cmd_stop: "./stop.sh"  # dump packet counters to logs
         cpu_bw: null  # float: fraction of CPU time in vim-emu
         cpu_cores: "1"  # string: this is "cpuset_cpu" in vim-emu e.g. ["0, 1"] -> 2 CPUs
