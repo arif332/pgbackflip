@@ -10,6 +10,8 @@ Document History:
 2019-09-27	V2	resolve ser application start issue
 2019-09-29	V3	finalize automatic docker build config file and procedure
 2019-10-21	V4	SIPP integration and call testing
+2019-11-05	V4	Added procedure for vim-emu execution
+
 ```
 
 
@@ -191,6 +193,13 @@ root@openimscore5:/opt/OpenIMSCore# grep modparam scscf.cfg |grep -i qop
 #modparam("scscf","registration_qop","auth,auth-int")
 modparam("scscf","registration_qop","")
 
+===========================================================
+Modify the scripts for the S-SCSCF (file scscf.cfg)
+set the default authentication algorithm to MD5
+modparam("scscf","registration_default_algorithm","MD5")
+set the qop parameter to ""
+
+modparam("scscf","registration_qop","")
 ```
 
 
@@ -296,6 +305,8 @@ Sample SIP testing configuration script for SIPP -
 http://openimscore.sourceforge.net/?q=emergency_testing_guide
 #sipp cheatsheet
 http://tomeko.net/other/sipp/sipp_cheatsheet.php?lang=en
+#doc link
+http://sipp.sourceforge.net/doc/reference.html
 ```
 
 
@@ -365,11 +376,59 @@ Solution to install dns server in openIMSCore
 
 
 
+## VIM-EMU Execution Procedure
+
+
+
+Clone git repository -
+
+```bash
+git clone https://github.com/arif332/tng-bench-experiments.git
+```
+
+Navigate to folder -
+
+```bash
+cd tng-bench-experiments
+```
+
+Run Experiments in tng clients -
+
+```bash
+#activate python environments
+source /usr/local/src/venv/bin/activate
+
+#run experiment with ped file
+tng-bench -p experiments/peds/openimscore.yml --no-prometheus
+```
 
 
 
 
-## Successful Logs:
+
+
+
+
+
+## Appendix:
+
+### Trace Analysis
+
+
+
+```bash
+tcpdump  -A -vvv -r sip-client-reg-call-8.cap host 172.17.0.2
+
+tcpdump  -A -vvv -r sip-client-reg-call-8.cap udp and host 172.17.0.2
+
+#with human readable timestamp 
+tcpdump  -tttt -A -vvv -n -S -q -r sip-client-reg-call-8.cap udp and host 172.17.0.2
+
+```
+
+
+
+#### Successful Call test Logs:
 
 
 
@@ -616,6 +675,70 @@ Bob call logs -
   Call Length            | 00:00:00:000000           | 00:00:07:040000          
 ------------------------------ Test Terminated --------------------------------
 
+
+
+```
+
+
+
+
+
+### Multiple Call
+
+
+
+```bash
+sipp -sn uas 172.17.0.2:4060 -p 3061
+sipp -sn uac 172.17.0.2:4060 -p 3062
+```
+
+
+
+```bash
+--server
+sipp -sf uas_b2a.xml 172.17.0.2:4060 -p 3061
+
+--client
+sipp -sf non_em_uac_b2a.xml 172.17.0.2:4060 -p 3062 -rate_increase 2 -rate_max 10 -m 20
+sipp -sf non_em_uac_b2a.xml 172.17.0.2:4060 -p 3062 -rate_increase 10 -rate_max 50 -m 500
+
+sipp -sf non_em_uac_b2a.xml 172.17.0.2:4060 -p 3062 -rate_increase 10 -rate_max 20 -m 50 -rp 5000
+```
+
+
+
+```bash
+*** Call rate options:
+
+   -r               : Set the call rate (in calls per seconds).  This value can bechanged during
+                      test by pressing '+', '_', '*' or '/'. Default is 10.
+                      pressing '+' key to increase call rate by 1 * rate_scale,
+                      pressing '-' key to decrease call rate by 1 * rate_scale,
+                      pressing '*' key to increase call rate by 10 * rate_scale,
+                      pressing '/' key to decrease call rate by 10 * rate_scale.
+                      
+   -rp              : Specify the rate period for the call rate.  Default is 1 second and default
+                      unit is milliseconds.  This allows you to have n calls every m milliseconds
+                      (by using -r n -rp m).
+                      Example: -r 7 -rp 2000 ==> 7 calls every 2 seconds.
+                               -r 10 -rp 5s => 10 calls every 5 seconds.
+   -rate_scale      : Control the units for the '+', '-', '*', and '/' keys.
+   -rate_increase   : Specify the rate increase every -rate_interval units (default is seconds). 
+                      This allows you to increase the load for each independent logging period.
+                      Example: -rate_increase 10 -rate_interval 10s
+                        ==> increase calls by 10 every 10 seconds.
+   -rate_max        : If -rate_increase is set, then quit after the rate reaches this value.
+                      Example: -rate_increase 10 -rate_max 100
+                        ==> increase calls by 10 until 100 cps is hit.
+   -rate_interval   : Set the interval by which the call rate is increased. Defaults to the value
+                      of -fd.
+   -no_rate_quit    : If -rate_increase is set, do not quit after the rate reaches -rate_max.
+   -l               : Set the maximum number of simultaneous calls. Once this limit is reached,
+                      traffic is decreased until the number of open calls goes down. Default:
+                        (3 * call_duration (s) * rate).
+   -m               : Stop the test and exit when 'calls' calls are processed
+   -users           : Instead of starting calls at a fixed rate, begin 'users' calls at startup,
+                      and keep the number of calls constant.
 
 
 ```
