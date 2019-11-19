@@ -54,3 +54,20 @@ Document History:
    root@ariflindesk1:/home/arif/gitRepos/pgbackflip/vnf_deploy#
    
    ```
+
+
+
+## Bench mark test tool and conf
+
+
+
+Document need to check -
+
+```bash
+https://wiki.freeradius.org/features/Fast
+https://coova.github.io/
+https://networkradius.com/radius-performance-testing/
+```
+
+
+
