@@ -29,8 +29,7 @@ ADD start.sh start.sh
 RUN chmod +x start.sh
 ADD stop.sh stop.sh
 RUN chmod +x stop.sh
-ADD ims-client-reg.sh ims-client-reg.sh
-RUN chmod +x ims-client-reg.sh
+ADD log_intf_statistics.py log_intf_statistics.py
 
 
 RUN mkdir /tngbench_share
