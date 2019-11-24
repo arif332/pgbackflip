@@ -70,7 +70,7 @@ Initiate experiments in tng-bench client -
 source /usr/local/src/venv/bin/activate
 
 #run experiment with ped file
-tng-bench -p experiments/peds/vaaa.yml --no-prometheus
+tng-bench -p experiments/peds/vaaa_v2.yml --no-prometheus
 ```
 
 
