@@ -40,6 +40,12 @@ ADD log_intf_statistics.py log_intf_statistics.py
 
 ADD vaaa-test.sh vaaa-test.sh
 RUN chmod +x vaaa-test.sh
+ADD vaaa-bench.sh vaaa-bench.sh
+RUN chmod +x vaaa-bench.sh
+
+ADD testuserdb testuserdb
+RUN chmod +x testuserdb
+
 
 
 CMD /bin/bash
