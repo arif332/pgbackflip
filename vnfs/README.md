@@ -4,10 +4,9 @@
 ## Document History
 
 ```
-Author: Arif
 Document History:
-2019-08-15	V1 	Initial deployment at localhost
-2019-09-21	V2	Build all vnfs using script
+2019-08-15  V1  Arif  "Initial deployment at localhost"
+2019-09-21  V2  Arif  "Build all vnfs using script"
 ```
 
 

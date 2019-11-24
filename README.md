@@ -4,10 +4,9 @@
 ## Document History
 
 ```
-Author: Arif
 Document History:
-2019-09-21	V1	run vAAA in vim-emu environment
-2019-11-05	V1	Added OpenIMSCore experiment information
+2019-09-21  V1  Arif  "run vAAA in vim-emu environment"
+2019-11-05  V1  Arif  "Added OpenIMSCore experiment information"
 ```
 
 
@@ -186,3 +185,66 @@ memory usage: 2.4+ KB
 2019-11-05 00:37:56 tng-bench-vm tngbench.tngsdk.benchmark[23235] INFO Copying PED (/usr/local/src/tng-bench-experiments/experiments/peds/openimscore.yml) to folder results/original_ped.yml
 (venv) root@tng-bench-vm:/usr/local/src/tng-bench-experiments#
 ```
+
+
+
+#### Execution logs for vAAA
+
+```bash
+(venv) root@tng-bench-vm:/usr/local/src/tng-bench-experiments# tng-bench -p experiments/peds/vaaa.yml --no-prometheus
+2019-11-24 16:36:41 tng-bench-vm tngbench.tngsdk.benchmark[46499] INFO Using config: /root/.tng-bench.conf
+2019-11-24 16:36:41 tng-bench-vm tngbench.tngsdk.benchmark[46499] INFO 5GTANGO benchmarking/profiling tool initialized
+2019-11-24 16:36:41 tng-bench-vm tngbench.tngsdk.benchmark[46499] INFO Found old results: results
+Do you want to overwrite 'results'? (y/n/default: y)y
+2019-11-24 16:36:43 tng-bench-vm tngbench.tngsdk.benchmark[46499] INFO Overwriting old results: results
+2019-11-24 16:36:43 tng-bench-vm tngbench.tngsdk.benchmark[46499] INFO Loaded PED file '/usr/local/src/tng-bench-experiments/experiments/peds/vaaa.yml'.
+2019-11-24 16:36:43 tng-bench-vm tngbench.tngsdk.benchmark.experiment[46499] INFO Populated experiment specification: 'vAAA1' with 1 configurations to be executed.
+2019-11-24 16:36:43 tng-bench-vm tngbench.tngsdk.benchmark.generator.tango[46499] INFO New 5GTANGO service configuration generator
+2019-11-24 16:36:43 tng-bench-vm tngbench.tngsdk.benchmark.generator.tango[46499] INFO Generating 1 service experiments using /usr/local/src/tng-bench-experiments/experiments/peds/../services/ns-1vnf-vAAA
+/usr/local/src/venv/lib/python3.6/site-packages/tngsdk/package/packager/packager.py:388: YAMLLoadWarning: calling yaml.load() without Loader=... is deprecated, as the default Loader is unsafe. Please read https://msg.pyyaml.org/load for full details.
+  data = yaml.load(f)
+/usr/local/src/venv/lib/python3.6/site-packages/tngsdk/package/packager/tango_packager.py:66: YAMLLoadWarning: calling yaml.load() without Loader=... is deprecated, as the default Loader is unsafe. Please read https://msg.pyyaml.org/load for full details.
+  data = yaml.load(f)
+2019-11-24 16:36:43 tng-bench-vm tngbench.tngsdk.benchmark.generator.tango[46499] INFO Generating 1 projects for Experiment(vAAA1)
+2019-11-24 16:36:43 tng-bench-vm tngbench.tngsdk.benchmark.generator.tango[46499] INFO Generated project (1/1): vAAA1_00000.tgo
+--------------------------------------------------------------------------------
+5GTANGO tng-bench: Experiment generation report
+--------------------------------------------------------------------------------
+Generated packages for 1 experiments with 1 configurations.
+Total time: 0.1067
+--------------------------------------------------------------------------------
+2019-11-24 16:36:43 tng-bench-vm tngbench.tngsdk.benchmark.executor[46499] INFO Initialized executor with 1 experiments and [1] configs
+2019-11-24 16:36:43 tng-bench-vm tngbench.tngsdk.benchmark.pdriver.vimemu[46499] INFO Initialized VimEmuDriver with {'host': '192.168.151.61', 'emusrv_port': 4999, 'llcm_port': 5000, 'docker_port': 4998}
+2019-11-24 16:36:43 tng-bench-vm tngbench.tngsdk.benchmark.executor[46499] INFO Preparing target platforms
+2019-11-24 16:36:43 tng-bench-vm tngbench.tngsdk.benchmark.executor[46499] INFO Executing experiments
+2019-11-24 16:36:43 tng-bench-vm tngbench.tngsdk.benchmark.executor[46499] INFO Setting up 'ExperimentConfiguration(vAAA1_00000)'
+2019-11-24 16:36:43 tng-bench-vm tngbench.tngsdk.benchmark.pdriver.vimemu.emuc[46499] INFO Waiting for emulator LLCM ... 0/60
+2019-11-24 16:36:44 tng-bench-vm tngbench.tngsdk.benchmark.pdriver.vimemu.emuc[46499] INFO Waiting for emulator LLCM ... 1/60
+2019-11-24 16:36:46 tng-bench-vm tngbench.tngsdk.benchmark.pdriver.vimemu.emuc[46499] INFO Waiting for emulator LLCM ... 2/60
+2019-11-24 16:36:47 tng-bench-vm tngbench.tngsdk.benchmark.pdriver.vimemu.emuc[46499] INFO Waiting for emulator LLCM ... 3/60
+2019-11-24 16:36:47 tng-bench-vm tngbench.tngsdk.benchmark.pdriver.vimemu.emuc[46499] INFO Emulator LLCM ready
+2019-11-24 16:36:47 tng-bench-vm tngbench.tngsdk.benchmark.pdriver.vimemu.emuc[46499] INFO On-boarding to LLCM: /tmp/tmp7j52h5wv/gen_pkgs/vAAA1_00000.tgo
+2019-11-24 16:37:38 tng-bench-vm tngbench.tngsdk.benchmark.pdriver.vimemu.emuc[46499] INFO Instantiating NS: 8a1ef5d8-fb86-4224-a3c6-91da6e65cc0b
+2019-11-24 16:37:41 tng-bench-vm tngbench.tngsdk.benchmark.pdriver.vimemu[46499] INFO Instantiated service: 4ce666a3-59b6-42ba-bc73-2053cebec41a
+2019-11-24 16:37:41 tng-bench-vm tngbench.tngsdk.benchmark.executor[46499] INFO Executing 'ExperimentConfiguration(vAAA1_00000)'
+2019-11-24 16:37:41 tng-bench-vm tngbench.tngsdk.benchmark.pdriver.vimemu[46499] INFO Warmup period (10s) ...
+2019-11-24 16:37:51 tng-bench-vm tngbench.tngsdk.benchmark.pdriver.vimemu[46499] INFO Stimulating ...
+2019-11-24 16:38:54 tng-bench-vm tngbench.tngsdk.benchmark.pdriver.vimemu[46499] INFO Collecting experiment results ...
+2019-11-24 16:38:55 tng-bench-vm tngbench.tngsdk.benchmark.pdriver.vimemu[46499] INFO Finalized 'ExperimentConfiguration(vAAA1_00000)'
+2019-11-24 16:38:55 tng-bench-vm tngbench.tngsdk.benchmark.executor[46499] INFO Teardown 'ExperimentConfiguration(vAAA1_00000)'
+2019-11-24 16:38:58 tng-bench-vm tngbench.tngsdk.benchmark.executor[46499] INFO Teardown target platforms
+2019-11-24 16:38:58 tng-bench-vm tngbench.tngsdk.benchmark[46499] INFO Prepared 2 result processor(s)
+2019-11-24 16:38:58 tng-bench-vm tngbench.tngsdk.benchmark[46499] INFO Running result processor '<tngsdk.benchmark.ietf.IetfBmwgVnfBD_Generator object at 0x7f12cc3b5ba8>'
+2019-11-24 16:38:58 tng-bench-vm tngbench.tngsdk.benchmark.ietf[46499] INFO IETF BMWG BD dir not specified (--ibbd). Skipping.
+2019-11-24 16:38:58 tng-bench-vm tngbench.tngsdk.benchmark[46499] INFO Running result processor '<tngsdk.benchmark.resultprocessor.vimemu.VimemuResultProcessor object at 0x7f12cd7492e8>'
+2019-11-24 16:38:58 tng-bench-vm tngbench.tngsdk.benchmark.resultprocessor.vimemu[46499] INFO Processing experiment metrics 1/1
+<class 'pandas.core.frame.DataFrame'>
+RangeIndex: 1 entries, 0 to 0
+Columns: 301 entries, experiment_name to run_id
+dtypes: float64(264), int64(6), object(31)
+memory usage: 2.4+ KB
+2019-11-24 16:38:58 tng-bench-vm tngbench.tngsdk.benchmark[46499] INFO Copying PED (/usr/local/src/tng-bench-experiments/experiments/peds/vaaa.yml) to folder results/original_ped.yml
+(venv) root@tng-bench-vm:/usr/local/src/tng-bench-experiments# 
+
+```
+
