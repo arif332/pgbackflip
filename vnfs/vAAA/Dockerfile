@@ -25,6 +25,8 @@ COPY raddb/ /etc/raddb/
 EXPOSE 1812 1813
 
 WORKDIR /
+RUN mkdir /tngbench_share
+
 ADD start.sh start.sh
 RUN chmod +x start.sh
 ADD stop.sh stop.sh
@@ -32,7 +34,7 @@ RUN chmod +x stop.sh
 ADD log_intf_statistics.py log_intf_statistics.py
 
 
-RUN mkdir /tngbench_share
+
 #start free radius server
 #ENTRYPOINT
 #CMD ["/usr/sbin/named"]

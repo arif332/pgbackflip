@@ -27,16 +27,20 @@ RUN	apt-get update && apt-get install -y \
 		freeradius-utils
 
 
+WORKDIR /
+RUN mkdir /tngbench_share
+
 ADD start.sh start.sh
 RUN chmod +x start.sh
 
 ADD stop.sh stop.sh
 RUN chmod +x stop.sh
 
+ADD log_intf_statistics.py log_intf_statistics.py
+
 ADD vaaa-test.sh vaaa-test.sh
 RUN chmod +x vaaa-test.sh
 
-WORKDIR /
-RUN mkdir /tngbench_share
+
 CMD /bin/bash
 
