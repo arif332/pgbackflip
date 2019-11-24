@@ -5,6 +5,6 @@ rsecret=testing123
 
 echo "start radclient for testing"
 
-radclient  -c 5000000 -n 1000000 -p 1000000 -s -q -f testuserdb $vvv_server:1812 auth $rsecret
+radclient  -c 10000000 -n 1000000 -p 1000000 -s -q -f testuserdb $vvv_server:1812 auth $rsecret
 
 echo "end radclient testing"
