@@ -1,5 +1,9 @@
-FROM freeradius/freeradius-server:latest
+#
+# PG BackFlip Project work
+#
 
+FROM freeradius/freeradius-server:latest
+LABEL maintainer="earihos@mail.paderborn.de/arif332@gmail.com"
 
 # define interface names (should be the same as in VNFD)
 ENV IFIN input
@@ -15,6 +19,7 @@ RUN apt-get update && \
 	nano \
     	python-dev \
         python-pip \
+	python-yaml \
 	vim \
 	curl \
 	&& rm -rf /var/lib/apt/lists/*
