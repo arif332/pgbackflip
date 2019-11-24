@@ -15,7 +15,7 @@ author: "Arif Hossen, Paderborn University, earihos@mail.uni-paderborn.de (arif3
 description: "vAAA Benchmark Experiment in vim-emu"
 
 # Path to the network service we want to profile (relative from PED location)
-service_package: "../services/ns-1vnf-vAAA"
+service_package: "../services/ns-1vnf-vAAA-v2"
 
 # Experiment definition
 service_experiments:
