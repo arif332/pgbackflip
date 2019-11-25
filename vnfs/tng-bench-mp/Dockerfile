@@ -44,7 +44,7 @@ ADD vaaa-bench.sh vaaa-bench.sh
 RUN chmod +x vaaa-bench.sh
 
 ADD testuserdb testuserdb
-RUN chmod +x testuserdb
+ADD smalldb smalldb
 
 
 

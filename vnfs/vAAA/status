@@ -1,0 +1,19 @@
+server status {
+	listen {
+		type = status
+		ipaddr = 0.0.0.0
+		port = 18121
+	}
+	client admin {
+		ipaddr = 0.0.0.0/0
+		secret = adminsecret
+	}
+	authorize {
+		ok
+		Autz-Type Status-Server {
+			ok
+		}
+	}
+}
+
+

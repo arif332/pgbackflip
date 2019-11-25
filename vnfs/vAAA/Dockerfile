@@ -26,6 +26,7 @@ RUN apt-get update && \
 
 
 COPY raddb/ /etc/raddb/
+COPY status /etc/raddb/sites-enabled/status
 #EXPOSE 1812/udp 1813/udp
 EXPOSE 1812 1813
 
