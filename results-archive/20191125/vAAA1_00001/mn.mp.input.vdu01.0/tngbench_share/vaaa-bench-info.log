@@ -1,0 +1,8 @@
+ : starting radclient for testing
+Packet summary:
+	Accepted      : 1000
+	Rejected      : 0
+	Lost          : 0
+	Passed filter : 1000
+	Failed filter : 0
+Mon Nov 25 23:18:14 UTC 2019 : starting radclient big testing

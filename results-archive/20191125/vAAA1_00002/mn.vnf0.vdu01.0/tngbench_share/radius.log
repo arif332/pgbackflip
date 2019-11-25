@@ -1,0 +1,10 @@
+Mon Nov 25 23:19:16 2019 : Info: Debugger not attached
+Mon Nov 25 23:19:16 2019 : Info: systemd watchdog is disabled
+Mon Nov 25 23:19:16 2019 : Info: Loaded virtual server <default>
+Mon Nov 25 23:19:16 2019 : Warning: Ignoring "sql" (see raddb/mods-available/README.rst)
+Mon Nov 25 23:19:16 2019 : Warning: Ignoring "ldap" (see raddb/mods-available/README.rst)
+Mon Nov 25 23:19:16 2019 : Info: Loaded virtual server default
+Mon Nov 25 23:19:16 2019 : Info:  # Skipping contents of 'if' as it is always 'false' -- /etc/freeradius/sites-enabled/inner-tunnel:336
+Mon Nov 25 23:19:16 2019 : Info: Loaded virtual server inner-tunnel
+Mon Nov 25 23:19:16 2019 : Info: Loaded virtual server status
+Mon Nov 25 23:19:16 2019 : Info: Ready to process requests
