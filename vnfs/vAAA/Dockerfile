@@ -38,7 +38,8 @@ RUN chmod +x start.sh
 ADD stop.sh stop.sh
 RUN chmod +x stop.sh
 ADD log_intf_statistics.py log_intf_statistics.py
-
+ADD radius_stat_processor.sh radius_stat_processor.sh
+RUN chmod +x radius_stat_processor.sh
 
 
 #start free radius server

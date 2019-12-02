@@ -12,4 +12,4 @@ echo "Message-Authenticator = 0x00, FreeRADIUS-Statistics-Type = all, Response-P
 
 #genreate result.yml
 python ./log_intf_statistics.py /tngbench_share/result.yml
-
+./radius_stat_processor.sh >>/tngbench_share/result.yml
