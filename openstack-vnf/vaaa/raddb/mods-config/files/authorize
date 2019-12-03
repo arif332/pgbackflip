@@ -1,0 +1,4 @@
+bob    Cleartext-Password := "test"
+rob    Cleartext-Password := "rob1"
+david    Cleartext-Password := "david1"
+fb    Cleartext-Password := "fb1"
