@@ -1,0 +1,68 @@
+---
+# PED documentation: https://github.com/sonata-nfv/tng-sdk-benchmark/wiki/PED
+#
+# This is an example for a profiling experiment descriptor (PED) that
+# defines a profiling (benchmarking) experiment for a Suricata VNF
+# that is stimulated by traffic traces replayed with TCP replay.
+# 
+# The tested network service (NSD, VNFDs) can be found in 'nw-services/'.
+#
+descriptor_version: 0.2  # 5GTANGO: 0.2, SONATA 0.1
+vendor: "de.upb"
+name: "openimscore"
+version: "1.0"
+author: "Arif Hossen, Paderborn University, earihos@mail.uni-paderborn.de (arif332@gmail.com)"
+description: "OpenIMSCore Benchmark Experiment in vim-emu"
+
+# Path to the network service we want to profile (relative from PED location)
+service_package: "../services/ns-1vnf-openimscore"
+
+# Experiment definition
+service_experiments:
+  - name: "openimscore"
+    description: "openimscore Benchmark Experiment"
+    repetitions: 1
+    time_limit: 60 # seconds per experiment
+    # NSD to be used (vendor.name.version reference)
+    target:
+      vendor: "de.upb"
+      name: "ns-1vnf-openimscore"
+      version: "0.1"
+    # additional containers for traffic generation/measurements (measurement points)
+    measurement_points:
+      - name: "mp.output"
+        connection_point: "ns:output"
+        container: "arif332/ims-client-mp2"
+        address: "40.0.0.254/24"  # address of the data interface of the MP
+      - name: "mp.input"
+        connection_point: "ns:input"
+        container: "arif332/ims-client-mp2"
+        address: "20.0.0.1/24"  # address of the data interface of the MP
+    # experiment parameters to be tested during the experiment
+    experiment_parameters:
+      - function: "de.upb.openimscore.0.1"
+        cmd_start: "./start.sh"
+        cmd_stop: "./stop.sh"
+        cpu_bw: null  # float: fraction of CPU time in vim-emu
+        cpu_cores: ["2,3"]  # string: this is "cpuset_cpu" in vim-emu e.g. ["0, 1"] -> 2 CPUs
+        mem_max: [6144,8192]  # int: Memory in MByte
+        mem_swap_max: null
+        io_bw: null
+      - function: "mp.input"
+        cmd_start: [
+          "./mp_input_start.sh"
+        ]
+        cmd_stop: "./stop.sh"
+        cpu_bw: null  # float: fraction of CPU time in vim-emu
+        cpu_cores: "0"  # string: this is "cpuset_cpu" in vim-emu e.g. ["0, 1"] -> 2 CPUs
+        mem_max: null  # int: Memory in MByte
+        mem_swap_max: null
+        io_bw: null
+      - function: "mp.output"
+        cmd_start: "./mp_output_start.sh"
+        cmd_stop: "./stop.sh"  # dump packet counters to logs
+        cpu_bw: null  # float: fraction of CPU time in vim-emu
+        cpu_cores: "1"  # string: this is "cpuset_cpu" in vim-emu e.g. ["0, 1"] -> 2 CPUs
+        mem_max: null  # int: Memory in MByte
+        mem_swap_max: null
+        io_bw: null
