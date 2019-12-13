@@ -8,7 +8,7 @@ description: A VNF based on arif332/openimscore-allinone
 virtual_deployment_units:
   - id: vdu01
     # https://github.com/arif332/
-    vm_image: arif332/openimscore-allinone
+    vm_image: arif332/openimscore-allinone_v2
     vm_image_format: docker
     resource_requirements:
       cpu:

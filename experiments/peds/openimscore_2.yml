@@ -22,7 +22,7 @@ service_experiments:
   - name: "openimscore"
     description: "openimscore Benchmark Experiment"
     repetitions: 1
-    time_limit: 180 # seconds per experiment
+    time_limit: 60 # seconds per experiment
     # NSD to be used (vendor.name.version reference)
     target:
       vendor: "de.upb"
