@@ -36,7 +36,7 @@ if [ $image_size -le 2500000000 ]; then       #2.5GB
 	qemu-img info $image_location/$image_name
 	qemu-img resize $image_location/$image_name +2G
 	qemu-img info $image_location/$image_name
-	virt-customize --memsize 1224  -a $image_location/$image_name \
+	virt-customize --memsize 8192  -a $image_location/$image_name \
 		--hostname "openimscore" \
 		--run-command 'DEBIAN_FRONTEND=noninteractive' \
 		--run-command 'apt-get update' \
@@ -50,7 +50,7 @@ fi
 
 
 #Install Necessary package realted to openimscore application
-virt-customize --memsize 1224  -a $image_location/$image_name \
+virt-customize --memsize 8192  -a $image_location/$image_name \
 	--hostname "openimscore" \
 	--run-command 'DEBIAN_FRONTEND=noninteractive' \
 	--run-command 'apt-get update' \
