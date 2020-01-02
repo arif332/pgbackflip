@@ -25,14 +25,14 @@ cd /home/arif/gitRepos/ah-tng-bench-experiments/openstack-vnfs/openimscore
 #--verbose 
 #--dry-run
 
-# As standard 2GB is not sufficient for openimsocre so we are increaing disk image size
+# Standard Ubuntu 18.04 LTS cloud image size is 2GB which is not sufficient for openimsocre, so follow below procedure to increase disk image size
 #increase image disk size
 
 image_size=`qemu-img info $image_location/$image_name|grep virtual|cut -d "(" -f2|cut -d " " -f1`
  
 echo "Image size is $image_size" 
 
-if [ $image_size -le 2361393160 ]; then
+if [ $image_size -le 2500000000 ]; then       #2.5GB
 	qemu-img info $image_location/$image_name
 	qemu-img resize $image_location/$image_name +2G
 	qemu-img info $image_location/$image_name
