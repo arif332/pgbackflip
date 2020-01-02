@@ -10,7 +10,6 @@
 #
 #
 
-
 image_in_web_1804=https://cloud-images.ubuntu.com/releases/bionic/release/ubuntu-18.04-server-cloudimg-amd64.img
 image_location=/home/arif/gitRepos/ah-tng-bench-experiments/openstack-vnfs/cloud-image
 image_name=openimscore_u18.04.img
@@ -18,23 +17,13 @@ image_name=openimscore_u18.04.img
 cd /home/arif/gitRepos/ah-tng-bench-experiments/openstack-vnfs/openimscore
 #wget $image_in_web_1804
 
-#sudo guestfish --rw -a openimscore_u18.04.img
-#run
-#list-filesystems
-#
-
 #http://manpages.ubuntu.com/manpages/xenial/man1/virt-customize.1.html
 # guestfish get-memsize
 # run script --run test.sh
 #--run SCRIPT
 #--copy directory copy recursively
 #--verbose 
-
-#    --upload mysql_install.sh:/mysql_install.sh \
-#    --run-command 'chmod +x /mysql_install.sh' \
-#    --run "./mysql_install.sh" \
-
-
+#--dry-run
 
 # As standard 2GB is not sufficient for openimsocre so we are increaing disk image size
 #increase image disk size
@@ -48,8 +37,8 @@ if [ $image_size -le 2361393160 ]; then
 	qemu-img resize $image_location/$image_name +2G
 	qemu-img info $image_location/$image_name
 	virt-customize --memsize 1224  -a $image_location/$image_name \
-	    --hostname "openimscore" \
-	    --run-command 'DEBIAN_FRONTEND=noninteractive' \
+		--hostname "openimscore" \
+		--run-command 'DEBIAN_FRONTEND=noninteractive' \
 		--run-command 'apt-get update' \
 		--run-command 'apt-get install -y cloud-initramfs-growroot' \
 		--run-command 'df -h' \
@@ -60,29 +49,27 @@ if [ $image_size -le 2361393160 ]; then
 fi
 
 
-
-
 #Install Necessary package realted to openimscore application
 virt-customize --memsize 1224  -a $image_location/$image_name \
-    --hostname "openimscore" \
-    --run-command 'DEBIAN_FRONTEND=noninteractive' \
+	--hostname "openimscore" \
+	--run-command 'DEBIAN_FRONTEND=noninteractive' \
 	--run-command 'apt-get update' \
 	--run-command 'apt-get install -y \
-	                       bind9 \
-	                       bison \
-	                       build-essential \
-	                       curl \
-	                       flex \
-	                       gcc-4.8 \
-	                       g++-4.8 \
-	                       iproute2 \
-	                       ipsec-tools \
-	                       libcurl4-openssl-dev \
-	                       libmysqld-dev \
-	                       libxml2-dev \
-	                       mysql-server \
-	                       net-tools \
-	                       nginx \
+                           bind9 \
+                           bison \
+                           build-essential \
+                           curl \
+                           flex \
+                           gcc-4.8 \
+                           g++-4.8 \
+                           iproute2 \
+                           ipsec-tools \
+                           libcurl4-openssl-dev \
+                           libmysqld-dev \
+                           libxml2-dev \
+                           mysql-server \
+                           net-tools \
+                           nginx \
                            python \
                            python3 \
                            python-dev \
