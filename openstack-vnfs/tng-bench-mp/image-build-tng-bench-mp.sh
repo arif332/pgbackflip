@@ -1,11 +1,20 @@
 #/bin/bash
 #
-cd /home/arif/gitRepos/ah-tng-bench-experiments/openstack-vnf/tng-bench-mp
 
-image_in_web=https://cloud-images.ubuntu.com/xenial/current/xenial-server-cloudimg-amd64-disk1.img
+# Author: Arif Hossen (earihos@mail.uni-paderborn.de / arif332@gmail.com)
+#
+# tng-bench-mp Build Script for Ubuntu 18.04 LTS
+# virt-customize is used to build customized image in offline
+#
+# V1 20191230 "Prepared Initial build script"
+#
+#
 
-image_location=/home/arif/gitRepos/ah-tng-bench-experiments/openstack-vnf/cloud-image
-image_name=xenial-tng-bench-mp.img
+image_in_web_1804=https://cloud-images.ubuntu.com/releases/bionic/release/ubuntu-18.04-server-cloudimg-amd64.img
+image_location=/home/arif/gitRepos/ah-tng-bench-experiments/openstack-vnfs/cloud-image
+image_name=tng-bench-mp_u18.04.img
+
+cd /home/arif/gitRepos/ah-tng-bench-experiments/openstack-vnfs/tng-bench-mp
 
 #http://manpages.ubuntu.com/manpages/xenial/man1/virt-customize.1.html
 # guestfish get-memsize
@@ -15,6 +24,8 @@ image_name=xenial-tng-bench-mp.img
 
 virt-customize -m 8192 -a $image_location/$image_name \
     --hostname "tng_bench_mp" \
+    --run-command "dpkg --configure -a" \
+    --run-command 'DEBIAN_FRONTEND=noninteractive' \
 	--run-command 'apt-get update' \
 	--run-command 'DEBIAN_FRONTEND=noninteractive' \
 	--run-command 'apt-get install -y \
@@ -46,5 +57,5 @@ virt-customize -m 8192 -a $image_location/$image_name \
 	--run-command 'chmod +x log_intf_statistics.py' \
 	--run-command 'chmod +x stop.sh' \
 	--run-command 'chmod +x start.sh' \
-	--run-command 'echo "manage_etc_hosts: true" >> /etc/cloud/cloud.cfg' \
-	--dry-run
+	--run-command 'echo "manage_etc_hosts: true" >> /etc/cloud/cloud.cfg' #\
+	#--dry-run

@@ -1,11 +1,21 @@
 #/bin/bash
 #
-cd /home/arif/gitRepos/ah-tng-bench-experiments/openstack-vnf/vaaa
 
-image_in_web=https://cloud-images.ubuntu.com/xenial/current/xenial-server-cloudimg-amd64-disk1.img
+# Author: Arif Hossen (earihos@mail.uni-paderborn.de / arif332@gmail.com)
+#
+# vaaa(freeradius) Build Script for Ubuntu 18.04 LTS
+# virt-customize is used to build customized image in offline
+#
+# V1 20191202 "Prepared Initial build script"
+# V2 20191230 "use ubuntu 18.04 lts"
+#
 
-image_location=/home/arif/gitRepos/ah-tng-bench-experiments/openstack-vnf/cloud-image
-image_name=xenial-vaaa.img
+image_in_web_1804=https://cloud-images.ubuntu.com/releases/bionic/release/ubuntu-18.04-server-cloudimg-amd64.img
+image_location=/home/arif/gitRepos/ah-tng-bench-experiments/openstack-vnfs/cloud-image
+image_name=vaaa_u18.04.img
+
+cd /home/arif/gitRepos/ah-tng-bench-experiments/openstack-vnfs/vaaa
+
 
 #http://manpages.ubuntu.com/manpages/xenial/man1/virt-customize.1.html
 # guestfish get-memsize
@@ -15,14 +25,13 @@ image_name=xenial-vaaa.img
 
 virt-customize -m 8192 -a $image_location/$image_name \
    --hostname "vaaa" \
-   --run-command 'apt-get update' \
    --run-command 'DEBIAN_FRONTEND=noninteractive' \
+   --run-command 'apt-get update' \
    --run-command 'apt-get install -y \
                           freeradius \
                           freeradius-utils \
                           python-yaml \
                           curl' \
-   --run-command 'systemctl is-enabled freeradius.service' \
    --run-command 'systemctl enable freeradius.service' \
    --run-command 'mkdir -p /script' \
    --run-command 'mkdir -p /tngbench_share' \
@@ -38,5 +47,5 @@ virt-customize -m 8192 -a $image_location/$image_name \
    --run-command 'chmod +x log_intf_statistics.py' \
    --run-command 'chmod +x stop.sh' \
    --run-command 'chmod +x start.sh' \
-   --run-command 'echo "manage_etc_hosts: true" >> /etc/cloud/cloud.cfg' \
-   --dry-run
+   --run-command 'echo "manage_etc_hosts: true" >> /etc/cloud/cloud.cfg' #\
+   #--dry-run
