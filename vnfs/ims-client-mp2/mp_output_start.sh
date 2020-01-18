@@ -35,4 +35,4 @@ sleep 7
 
 #sipp -sf $imsconf/non_em_uac_b2a.xml $pcscf:$remote_sip_port -i $own_ip_addr -p $local_port -rate_increase 10 -rate_max 1000 -m 500 -rp 5000 -l 1000 -f 10 -trace_stat
 
-sipp -sf $imsconf/non_em_uac_b2a.xml $pcscf:$remote_sip_port -i $own_ip_addr -p $local_port -rate_increase 1000 -rate_max 100000 -m 5000000 -rp 5000 -l 5000000 -f 15 -trace_stat -fd 5
+sipp -sf $imsconf/non_em_uac_b2a.xml $pcscf:$remote_sip_port -i $own_ip_addr -p $local_port -rate_increase 1000 -rate_max 100000 -m 5000000 -rp 10000 -l 5000000 -f 30 -trace_stat -fd 5
